@@ -1,0 +1,30 @@
+.chosendoc-wrapper {
+    width: 650px;
+    height: 115px;
+    margin-top: 20px;
+    margin-left: 34%;
+    display: inline-block;
+    padding: 20px 40px;
+    padding-right: 50px;
+    border-radius: 4px;
+    background-color: #ffffff;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-left: 15px groove #519e8a;
+    border-radius: 40px 22px 22px 40px;
+}
+
+.chosendoc-img {
+    width: 110px;
+    height: 70px;
+    border-radius: 85px;
+    margin-right: 50px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.chosendoc-txt {
+    display:inline-block;
+    vertical-align:middle;
+    height: 110px;
+}

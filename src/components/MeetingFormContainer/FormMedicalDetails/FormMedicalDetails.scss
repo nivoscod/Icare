@@ -1,0 +1,32 @@
+.weight {
+  margin-right: 1%;
+}
+
+.height {
+  margin-left: 1%;
+}
+
+.weight,
+.height {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.weight,
+.height {
+  width: 49%;
+}
+
+.medical-ckbox{
+  display: inline-block;
+  width: 100%; 
+  padding-left: 0.4em;
+  margin-bottom: 15px;
+}
+
+.medical-radio{
+  display: inline-block;
+  width: 100%; 
+  padding-left: 0.4em;
+}

@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import "./DoctorsList.scss";
 import Doctor from "../Doctor/Doctor"
-import {doctorsData} from "../doctorsData";
 
 export default class DoctorsList extends Component {
     state={
-        doctors: doctorsData
+        doctors: []
     }
     removeDoctor = id => {
         const {doctors} = this.state;
@@ -14,6 +13,26 @@ export default class DoctorsList extends Component {
             doctors: sortedDoctors
         })
     }
+
+
+    retrieveDoctors() {
+        fetch('http://127.0.0.1:8080/doctors', {
+            method: 'GET',
+        })
+        .then(response => { return response.json();})
+        .then(responseData => {console.log(responseData); return responseData;})
+        .then(data => {this.setState({"doctors" : data});})
+    
+        .catch(err => {
+            console.log("fetch error" + err);
+        });
+    }
+
+
+    componentDidMount() {
+        this.retrieveDoctors();
+      }
+
     render() { 
         const {doctors} = this.state;
         return (

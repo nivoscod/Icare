@@ -1,20 +1,38 @@
 import React, { Component } from 'react'
 import './ChosenDoctor.scss';
-import {doctorsData} from "../doctorsData";
 
 export default class ChosenDoctor extends Component {
-    render() {
-        const { docId, action } = this.props;
-        return (
+    state={
+        doctor: []
+    }
+
+    retrieveDoctor = docId => {
+        console.log('hi')
+        fetch(`http:/127.0.0.1:8080/doctors/${docId}`, {
+            method: 'GET',
+        })
+        .then(response => { return response.json();})
+        .then(responseData => {console.log(responseData); return responseData;})
+        .then(data => {this.setState({"doctor" : data});})
+        .catch(err => {
+            console.log("fetch error" + err);
+        });
+    }
+
+    componentDidMount() {
+        console.log('mountes')
+        this.retrieveDoctor(this.props.docId);
+      }
+
+    render() { 
+         return (
             <div className="chosendoc-wrapper">
-            <img src={doctorsData[docId-1].img} alt="" className="chosendoc-img" />
+            <img src={this.doctor.img} alt="" className="chosendoc-img" />
             <div className="chosendoc-txt">
-                <h3> {action + ' ' + doctorsData[docId-1].name}  </h3> 
-                <p> {doctorsData[docId-1].location}  </p>
-                <p> sunday-thursday: 8am-8pm  </p>
+                <h3> {this.props.action + ' ' + this.doctor.name}  </h3> 
+                <p> {this.docotr.location}  </p>
             </div>
             </div>
-                    
-        )
+        );
     }
 }

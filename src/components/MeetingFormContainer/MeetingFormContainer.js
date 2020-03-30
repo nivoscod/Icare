@@ -36,7 +36,6 @@ export class MeetingFormContainer extends Component {
         weight: "",
         height: ""
       },
-      appointmentsData: appointmentsData,
       appointment: {
         year: "",
         month: "",
@@ -45,7 +44,7 @@ export class MeetingFormContainer extends Component {
       }
 
   }
-
+  
   handleSmokerChange = e => {
     this.setState({
       smoker: e.target.value
@@ -167,7 +166,8 @@ export class MeetingFormContainer extends Component {
                     nextStep={this.nextStep}
                     prevStep={this.prevStep}
                     appointmentDetails={appointment}
-                    handleSelectChange={this.handleSelectChange} />
+                    handleSelectChange={this.handleSelectChange}
+                    docId={this.props.docId} />
                   )
             case 4:
                 return <h1>Success</h1>

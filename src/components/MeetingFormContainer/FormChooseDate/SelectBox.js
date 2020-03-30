@@ -28,9 +28,9 @@ const SelectBox = ({ selectedVal, items, type, handleSelectChange }) => (
           value = {selectedVal}
         > 
         {
-          items.map(item => {
-            return <MenuItem value={item}>{item}</MenuItem>
-          })
+          items.map((obj) => { 
+          return <MenuItem value={obj[type]} key={obj[type]}>{obj[type]}</MenuItem> 
+          })})
         }
 
         </Select>

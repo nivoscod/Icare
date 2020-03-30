@@ -8,7 +8,7 @@ export default class AttendMeeting extends Component {
     return (
       <div className='meetform'>
         <ChosenDoctor action={action} docId={docId}/>
-        <MeetingFormContainer />
+        <MeetingFormContainer docId={docId} />
       </div>
       )
     }

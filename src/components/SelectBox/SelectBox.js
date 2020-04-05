@@ -29,13 +29,11 @@ const SelectBox = ({ selectedVal, items, type, handleSelectChange }) => (
         > 
         {
           items.map((obj) => { 
-          return <MenuItem value={obj[type]} key={obj[type]}>{obj[type]}</MenuItem> 
-          })})
+          return <MenuItem value={obj[type]}>{obj[type]}</MenuItem> 
+          })
         }
-
         </Select>
       </FormControl>
       </div>
 );
-
 export default SelectBox;

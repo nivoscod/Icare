@@ -1,105 +1,102 @@
 import React, { Component } from 'react'
 import './FormMedicalDetails.scss';
-import Checkbox from './../Checkbox';
 import MedicalHisOptions from './../../../consts';
-
-export class FormMedicalDetails extends Component {
-    continute = e => {
-        e.preventDefault();
-        this.props.nextStep();
-    }
-
-    back = e => {
-        e.preventDefault();
-        this.props.prevStep();
-    }
-
-    disabledButton = (formErrors, values) => {
-      let hasErrors = Object.values(formErrors).some(element => element.length > 0);
-      let isFormEmpty = Object.values(values).some(e => (e.length === 0))
-      return hasErrors || isFormEmpty;
-    }
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { makeStyles } from '@material-ui/core/styles';
+import FormGroup from '@material-ui/core/FormGroup';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
 
 
-    createCheckbox = option => (
-      <Checkbox
-        label={option}
-        isSelected={this.props.values.checkboxes[option]}
-        onCheckboxChange={this.props.handleCheckboxChange}
-        key={option}
-      />
-    );
+const FormMedicalDetails = (props) => {
+  const continute = e => {
+    e.preventDefault();
+    props.nextStep();
+  }
   
-    createCheckboxes = () => MedicalHisOptions.map(option => this.createCheckbox(option));
+  const back = e => {
+    e.preventDefault();
+    props.prevStep();
+  }
+  
+  const disabledButton = (formErrors, values) => {
+  let hasErrors = Object.values(formErrors).some(element => element.length > 0);
+  let isFormEmpty = Object.values(values).some(e => (e.length === 0))
+  return hasErrors || isFormEmpty;
+  }
+  
+  const createCheckbox = option => (
+    <FormControlLabel
+      control={
+        <Checkbox
+          name={option}
+          checked={props.values.checkboxes[option]}
+          onChange={props.handleCheckboxChange}
+          style ={{
+            color: "#519e8a",
+          }}
+        />
+      }
+      label={<span style={{ fontSize: '14px' }}>{option}</span>}
+    />);
+  const createCheckboxes = () => MedicalHisOptions.map(option => createCheckbox(option));
+  const { values, handleChange, handleSmokerChange, formErrors  } = props;
+    //<button type="submit" disabled={this.disabledButton(formErrors, values)} onClick={this.continute}>Continute</button>
 
-    render() {
-        const { values, handleChange, handleSmokerChange, formErrors  } = this.props;
-        //<button type="submit" disabled={this.disabledButton(formErrors, values)} onClick={this.continute}>Continute</button>
-
-        
-        return (
-          <div className="wrapper">
-          <div className="form-wrapper">
-          <h1>Medical Details</h1>
-            <form onSubmit={this.handleSubmit} noValidate>
-              <div className="weight">
-                <label htmlFor="weight">Weight</label>
-                <input
-                  className={formErrors.weight.length > 0 ? "error" : null}
-                  defaultValue={values.weight}
-                  placeholder="Weight"
-                  type="text"
-                  name="weight"
-                  noValidate
-                  onChange={handleChange('weight')}
-                />
-                {formErrors.weight.length > 0 && (
-                  <span className="errorMessage">{formErrors.weight}</span>
-                )}
-              </div>
-
-              <div className="height">
-                <label htmlFor="height">Height</label>
-                <input
-                  className={formErrors.height.length > 0 ? "error" : null}
-                  defaultValue={values.height}
-                  placeholder="height"
-                  type="text"
-                  name="height"
-                  onChange={handleChange('height')}
-                  noValidate
-                />
-                {formErrors.height.length > 0 && (
-                  <span className="errorMessage">{formErrors.height}</span>
-                )}
-              </div>
-
-            <label htmlFor="medicalHis">Medical History Diagnosis:</label>
-            <div className="medical-ckbox">{this.createCheckboxes()}</div>
-
-            <label htmlFor="medicalHis">Are you a smoker?</label>
-            <div className="medical-radio">
-                <label>
-                  <input type="radio" value="yes" checked={values.smoker === 'yes'} onChange={handleSmokerChange} />
-                  {' Yes'}
-                </label>
-            </div>
-            <div className="medical-radio">
-                <label>
-                  <input type="radio" value="no" checked={values.smoker === 'no'} onChange={handleSmokerChange} />
-                  {' No'}
-                </label>
-            </div> 
-      
-              <div className="createAccount">
-                <button type="submit" onClick={this.continute}>Continute</button>
-                <button type="submit" onClick={this.back}>Go Back</button>
-              </div>
-            </form>
+  return (
+    <div className="wrapper">
+      <div className="form-wrapper">
+      <h1>Medical Details</h1>
+        <form>
+          <div className="weight">
+            <label htmlFor="weight">Weight</label>
+            <input
+              className={formErrors.weight.length > 0 ? "error" : null}
+              defaultValue={values.weight}
+              placeholder="Weight"
+              type="text"
+              name="weight"
+              noValidate
+              onChange={handleChange('weight')}
+            />
+            {formErrors.weight.length > 0 && (
+              <span className="errorMessage">{formErrors.weight}</span>
+            )}
           </div>
-        </div>
-        );
-    }
-}
 
-export default FormMedicalDetails
+          <div className="height">
+            <label htmlFor="height">Height</label>
+            <input
+              className={formErrors.height.length > 0 ? "error" : null}
+              defaultValue={values.height}
+              placeholder="height"
+              type="text"
+              name="height"
+              onChange={handleChange('height')}
+              noValidate
+            />
+            {formErrors.height.length > 0 && (
+              <span className="errorMessage">{formErrors.height}</span>
+            )}
+          </div>
+
+        <label htmlFor="medicalHis">Medical History Diagnosis:</label>
+        <div className="medical-ckbox"><FormGroup>{createCheckboxes()}</FormGroup></div>
+        <label htmlFor="medicalHis">Are you a smoker?</label>
+        <div className="medical-radio">
+          <RadioGroup aria-label="gender" name="gender1" value={values.smoker} onChange={handleSmokerChange}>
+            <FormControlLabel value="yes" control={<Radio style ={{color: "#519e8a",}}/>} label={<span style={{ fontSize: '14px' }}>yes</span>} />
+            <FormControlLabel value="no" control={<Radio style ={{color: "#519e8a",}}/>} label={<span style={{ fontSize: '14px' }}>no</span>} />
+          </RadioGroup>
+        </div>
+        <div className="createAccount">
+            <button type="submit" onClick={continute}>Continute</button>
+            <button type="submit" onClick={back}>Go Back</button>
+        </div>
+      </form>
+  </div>
+  </div>);
+} 
+
+export default FormMedicalDetails;

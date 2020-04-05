@@ -1,9 +1,6 @@
 .chosendoc-wrapper {
-    width: 650px;
     height: 115px;
-    margin-top: 20px;
     margin-left: 34%;
-    display: inline-block;
     padding: 20px 40px;
     padding-right: 50px;
     border-radius: 4px;
@@ -13,6 +10,10 @@
     align-items: center;
     border-left: 15px groove #519e8a;
     border-radius: 40px 22px 22px 40px;
+    display: block;
+    margin-bottom: 50px;
+    margin-top: 20px;
+
 }
 
 .chosendoc-img {

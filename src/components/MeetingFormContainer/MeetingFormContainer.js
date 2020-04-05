@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import FormUserDetails from "./FormUserDetails/FormUserDetails";
 import FormMedicalDetails from "./FormMedicalDetails/FormMedicalDetails";
 import FormChooseDate from "./FormChooseDate/FormChooseDate"
-import {appointmentsData} from "../appointmentsData";
 import MedicalHisOptions from './../../consts';
 
 const emailRegex = RegExp(
@@ -68,6 +67,8 @@ export class MeetingFormContainer extends Component {
       case "month":
         appointment.day = '';
         appointment.hour = '';
+        case "day":
+          appointment.hour = '';
         break;
       default:
         break;
@@ -81,6 +82,7 @@ export class MeetingFormContainer extends Component {
   // Procees to next step
   nextStep = () => {
       const { step }  = this.state;
+      console.log(step)
       this.setState({
           step: step + 1
       });

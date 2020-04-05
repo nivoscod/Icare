@@ -1,14 +1,13 @@
 import React, { PureComponent } from 'react';
-import SelectBox from './SelectBox';
-import {appointmentsData} from "./../../appointmentsData";
-
+import SelectBox from '../../SelectBox/SelectBox';
 
 export default class FormChooseDate extends PureComponent {
     state={
         avalYears: [],
         avalMonths: [],
         avalDays: [],
-        avalHours: []
+        avalHours: [],
+        appointmentDetails: this.props.appointmentDetails
     }
 
     retrieveYears = docId => {
@@ -60,28 +59,33 @@ export default class FormChooseDate extends PureComponent {
 
 
     componentDidMount() {
-        this.retrieveYears(this.props.docId);
+            let appointmentDetails = { ...this.state.appointmentDetails };
+            appointmentDetails.year = '';
+            appointmentDetails.day = '';
+            appointmentDetails.month = '';
+            appointmentDetails.hour = '';
+            this.retrieveYears(this.props.docId)          
+            this.setState({ appointmentDetails })
       }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps, prevState) {
         const day = this.props.appointmentDetails['day'];
         const month = this.props.appointmentDetails['month'];
         const year = this.props.appointmentDetails['year'];
-        const { avalMonths, avalDays, avalHours } = this.state;
-        if (this.props.appointmentDetails['year'] != '') {
-            if (Object.keys(avalMonths).length === 0) 
-                this.retrieveMonths(this.props.docId, year) 
+
+        if (prevState.appointmentDetails.year != this.state.appointmentDetails.year) {
+                this.retrieveMonths(this.props.docId, year)          
         }
-        
-        if (this.props.appointmentDetails['month'] != '') {
-            if (Object.keys(avalDays).length === 0) 
+        if (prevState.appointmentDetails.month != this.state.appointmentDetails.month) {
                 this.retrieveDays(this.props.docId, year, month) 
         }
 
-        if (this.props.appointmentDetails['day'] != '') {
-            if (Object.keys(avalHours).length === 0) 
+        if (prevState.appointmentDetails.day != this.state.appointmentDetails.day) {
                 this.retrieveHours(this.props.docId, year, month, day) 
         }
+
+        let appointmentDetails = this.props.appointmentDetails
+        this.setState({ appointmentDetails });
     }
     
     continute = e => {
@@ -105,18 +109,18 @@ export default class FormChooseDate extends PureComponent {
     );
 
     render() {
-        const appointmentDetails = this.props.appointmentDetails
+        const appointmentDetails2 = this.props.appointmentDetails
         const { avalYears, avalMonths, avalDays, avalHours } = this.state;
-        let day = appointmentDetails['day'];
-        let month = appointmentDetails['month'];
-        let year = appointmentDetails['year'];
-        let hour = appointmentDetails['hour'];
+        let day = appointmentDetails2['day'];
+        let month = appointmentDetails2['month'];
+        let year = appointmentDetails2['year'];
+        let hour = appointmentDetails2['hour'];
         //<button disabled={this.disabledButton(formErrors, values)} type="submit" onClick={this.continute}>Continute</button>
         return (
           <div className="wrapper">
           <div className="form-wrapper">
           <h1>Pick a Date</h1>
-            <form onSubmit={this.handleSubmit} noValidate>
+            <form>
                 {this.createSelectList("year", avalYears)}   
 
                 {year !== '' 

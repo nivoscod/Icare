@@ -1,11 +1,15 @@
 import React from "react";
 import DoctorsList from "../components/DoctorsList"
+import SearchBar from '../components/SearchBar/SearchBar'
+import './css/home.scss';
 
-const home = () => {
+function home() {
     return (
-        <>
-       <DoctorsList></DoctorsList>
-        </>
+        <div>
+          <SearchBar></SearchBar>
+          <DoctorsList></DoctorsList>
+        </div>
+       
       );
     };
 

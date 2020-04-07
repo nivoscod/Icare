@@ -1,7 +1,9 @@
 import { ADD_CHOSEN_DOC } from '../actions';
+import { ADD_CHOSEN_FIELD } from '../actions';
 
 const initialState = {
-    chosenDoc: ''
+    chosenDoc: '',
+    chosenField: ''
 };
 
 function rootReducer(state = initialState, action) {
@@ -10,7 +12,7 @@ function rootReducer(state = initialState, action) {
       return {
        chosenDoc: action.name
       };
-
+      break;
     default:
       return state;
   };

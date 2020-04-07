@@ -8,9 +8,9 @@ light green: #A3C4BC
 */
 
 .wrapper {
-    height: 560px;
+    height: 40%;
     display: block;
-    margin-left: 710px;
+    margin-left: 35%;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -103,7 +103,8 @@ light green: #A3C4BC
   }
   
   .email,
-  .city {
+  .city,
+  .id {
     width: 100%;
   }
   

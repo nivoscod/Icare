@@ -6,7 +6,8 @@ import { connect } from 'react-redux';
 export class DoctorsList extends Component {
     state={
         doctors: [],
-        chosenDoc: this.props.chosenDoc
+        chosenDoc: this.props.chosenDoc,
+        chosenField: this.props.chosenField
     }
     
     removeDoctor = id => {
@@ -29,8 +30,10 @@ export class DoctorsList extends Component {
         });
     }
 
-    retrieveDoctorsByName(name) {
-        fetch(`http://127.0.0.1:8080/doctorsByName/${name}`, {
+    retrieveFilterredDoctors(chosenDoc, chosenField) {
+        const data = {chosenDoc:chosenDoc, chosenField:chosenField};
+        console.log(`http://127.0.0.1:8080/filterdocs/?doc=${encodeURIComponent(chosenDoc)}&field=${encodeURIComponent(chosenField)}`)
+        fetch(`http://127.0.0.1:8080/filterdocs/?doc=${encodeURIComponent(chosenDoc)}&field=${encodeURIComponent(chosenField)}`, {
             method: 'GET',
         })
         .then(response => { return response.json();})
@@ -48,11 +51,13 @@ export class DoctorsList extends Component {
 
     componentDidUpdate() {
         if (this.props.chosenDoc != this.state.chosenDoc) {
+            console.log(this.props.chosenDoc)
             this.setState({chosenDoc: this.props.chosenDoc})
-            if (this.props.chosenDoc != '') {
-                this.retrieveDoctorsByName(this.props.chosenDoc)
-            }
-            else this.retrieveDoctors();
+            this.retrieveFilterredDoctors(this.props.chosenDoc, '');
+
+        }
+        if (this.props.chosenField != this.state.chosenField) {
+            this.setState({chosenField: this.props.chosenField})
         }
     }
 
@@ -76,8 +81,7 @@ export class DoctorsList extends Component {
 
 const mapStateToProps = state => {
     return {
-        chosenDoc: state.chosenDoc
-    };
+        chosenDoc: state.chosenDoc    };
   };
   
   export default connect(mapStateToProps, null)(DoctorsList);

@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { connect } from 'react-redux';
 import { addChosenDoc } from '../../js/actions'
+import { addChosenField } from '../../js/actions'
 
 
 export class SearchBar extends Component {
@@ -36,9 +37,6 @@ export class SearchBar extends Component {
         if (values === null) { this.setState({chosenField: ''})}
         else this.setState({chosenField: values[name]});
         break;
-      case 'name':
-        if (values === null) { this.setState({chosenDocName: ''})}
-        else this.setState({chosenDocName: values[name]});
       default:
         break
     }
@@ -71,14 +69,15 @@ export class SearchBar extends Component {
 
   handleSubmission = (e) => {
     e.preventDefault();
-    let { chosenDocName } = this.state;
+    let { chosenDocName, chosenField } = this.state;
     this.props.addChosenDoc(chosenDocName);
+    this.props.addChosenField(chosenField);
   }
 
     render() {
       return (
       <div className="searchBar">
-        <div className="contentSrch"><h4>Which Doctor to search today?</h4></div>
+        <div className="contentSrch"><h4>Any Doctor, Anywhere!</h4></div>
         <div className="selectsLists"> 
           <div className="srcbaritem">{this.createSelectList("field", this.state.mecdicalFields)}</div>
           <div className="srcbaritem"><TextField id="outlined-basic" label="Doctor Name" variant="outlined" onChange={this.handleTextChange('name')}/></div>
@@ -93,6 +92,7 @@ export class SearchBar extends Component {
 export default connect(
   null,
   {
-    addChosenDoc: addChosenDoc
+    addChosenDoc: addChosenDoc,
+    addChosenField: addChosenField
   }
 )(SearchBar);

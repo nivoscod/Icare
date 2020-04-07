@@ -6,9 +6,11 @@ import { connect } from 'react-redux';
 export class DoctorsList extends Component {
     state={
         doctors: [],
-        chosenDoc: this.props.chosenDoc,
-        chosenField: this.props.chosenField
-    }
+        filters: {
+            chosenDoc: '',
+            chosenField: '',
+            chosenArea: ''
+        }    }
     
     removeDoctor = id => {
         const {doctors} = this.state;
@@ -30,10 +32,11 @@ export class DoctorsList extends Component {
         });
     }
 
-    retrieveFilterredDoctors(chosenDoc, chosenField) {
-        const data = {chosenDoc:chosenDoc, chosenField:chosenField};
-        console.log(`http://127.0.0.1:8080/filterdocs/?doc=${encodeURIComponent(chosenDoc)}&field=${encodeURIComponent(chosenField)}`)
-        fetch(`http://127.0.0.1:8080/filterdocs/?doc=${encodeURIComponent(chosenDoc)}&field=${encodeURIComponent(chosenField)}`, {
+    retrieveFilterredDoctors(filters) {
+        let chosenDoc = filters.chosenDoc;
+        let chosenField = filters.chosenField;
+        let chosenArea = filters.chosenArea;
+        fetch(`http://127.0.0.1:8080/filterdocs/?doc=${encodeURIComponent(chosenDoc)}&field=${encodeURIComponent(chosenField)}&area=${encodeURIComponent(chosenArea)}`, {
             method: 'GET',
         })
         .then(response => { return response.json();})
@@ -50,15 +53,12 @@ export class DoctorsList extends Component {
       }
 
     componentDidUpdate() {
-        if (this.props.chosenDoc != this.state.chosenDoc) {
-            console.log(this.props.chosenDoc)
-            this.setState({chosenDoc: this.props.chosenDoc})
-            this.retrieveFilterredDoctors(this.props.chosenDoc, '');
-
-        }
-        if (this.props.chosenField != this.state.chosenField) {
-            this.setState({chosenField: this.props.chosenField})
-        }
+       if (this.props.filters.chosenDoc !== this.state.filters.chosenDoc ||
+        this.props.filters.chosenField !== this.state.filters.chosenField ||
+        this.props.filters.chosenArea !== this.state.filters.chosenArea) {
+           this.setState({filters: this.props.filters})
+           this.retrieveFilterredDoctors(this.props.filters)
+       }
     }
 
     render() { 
@@ -81,7 +81,7 @@ export class DoctorsList extends Component {
 
 const mapStateToProps = state => {
     return {
-        chosenDoc: state.chosenDoc    };
+        filters: state.filters   };
   };
   
   export default connect(mapStateToProps, null)(DoctorsList);

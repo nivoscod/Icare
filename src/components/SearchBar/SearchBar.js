@@ -3,18 +3,18 @@ import './SearchBar.scss'
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { connect } from 'react-redux';
-import { addChosenDoc } from '../../js/actions'
-import { addChosenField } from '../../js/actions'
+import { addFilters } from '../../js/actions'
 
 
 export class SearchBar extends Component {
   state= {
       mecdicalFields: [],
-      chosenDocName: '',
-      chosenField: '',
-      chosenArea: ''
+      filters: {
+        chosenDoc: '',
+        chosenField: '',
+        chosenArea: ''
+      }
   }
-
 
   retrieveMedicalFields = () => {
     fetch(`http://127.0.0.1:8080/medicalFields`, {
@@ -32,26 +32,32 @@ export class SearchBar extends Component {
   }
 
   handleSelectChange = name => (event, values) => {
+    let filters = {...this.state.filters}
     switch(name) {
       case 'field':
-        if (values === null) { this.setState({chosenField: ''})}
-        else this.setState({chosenField: values[name]});
+        if (values === null) { filters.chosenField = ''}
+        else filters.chosenField = values[name]
         break;
       default:
         break
     }
+    this.setState({filters})
+
   }
 
     handleTextChange = name => (event) => {
+      let filters = {...this.state.filters}
       switch(name) {
         case 'name':
-          this.setState({chosenDocName: event.target.value})
+          filters.chosenDoc = event.target.value;
           break;
         case 'area':
-          this.setState({chosenArea: event.target.value})
+          filters.chosenArea = event.target.value;
         default:
           break;
       }
+
+      this.setState({filters})
     }
 
   createSelectList = (type, items) => (
@@ -69,9 +75,7 @@ export class SearchBar extends Component {
 
   handleSubmission = (e) => {
     e.preventDefault();
-    let { chosenDocName, chosenField } = this.state;
-    this.props.addChosenDoc(chosenDocName);
-    this.props.addChosenField(chosenField);
+    this.props.addfilters(this.state.filters);
   }
 
     render() {
@@ -92,7 +96,6 @@ export class SearchBar extends Component {
 export default connect(
   null,
   {
-    addChosenDoc: addChosenDoc,
-    addChosenField: addChosenField
+    addfilters: addFilters
   }
 )(SearchBar);

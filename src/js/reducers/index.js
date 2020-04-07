@@ -1,18 +1,20 @@
-import { ADD_CHOSEN_DOC } from '../actions';
-import { ADD_CHOSEN_FIELD } from '../actions';
+import { ADD_FILTERS } from '../actions';
 
 const initialState = {
+  filters: {
     chosenDoc: '',
-    chosenField: ''
+    chosenField: '',
+    chosenArea: ''
+  }
 };
 
 function rootReducer(state = initialState, action) {
   switch(action.type) {
-    case ADD_CHOSEN_DOC:
+    case ADD_FILTERS:
       return {
-       chosenDoc: action.name
+        ...state,
+       filters: action.filters
       };
-      break;
     default:
       return state;
   };

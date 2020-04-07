@@ -1,17 +1,7 @@
 
-export const ADD_CHOSEN_DOC = 'ADD_CHOSEN_DOC';
-export const ADD_CHOSEN_FIELD = 'ADD_CHOSEN_FIELD';
-export const ADD_CHOSEN_AREA = 'ADD_CHOSEN_AREA';
+export const ADD_FILTERS = 'ADD_FILTERS';
 
 
-export function addChosenDoc(name) {
-  return { type: ADD_CHOSEN_DOC, name: name };
-}
-
-export function addChosenField(name) {
-  return { type: ADD_CHOSEN_FIELD, name: name };
-}
-
-export function addChosenArea(name) {
-  return { type: ADD_CHOSEN_AREA, name: name };
+export function addFilters(filters) {
+  return { type: ADD_FILTERS, filters: filters };
 }

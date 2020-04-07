@@ -3,6 +3,7 @@ import FormUserDetails from "./FormUserDetails/FormUserDetails";
 import FormMedicalDetails from "./FormMedicalDetails/FormMedicalDetails";
 import FormChooseDate from "./FormChooseDate/FormChooseDate"
 import MedicalHisOptions from './../../consts';
+import axios from 'axios';
 
 const emailRegex = RegExp(
     /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
@@ -11,11 +12,13 @@ const emailRegex = RegExp(
 export class MeetingFormContainer extends Component {
   state= {
       step: 1,
+      docId: '1',
       firstName: '',
       lastName: '',
       email: '',
       city: '',
       id: '',
+      tel: '345435',
       weight: '',
       height: '',
       checkboxes: MedicalHisOptions.reduce(
@@ -73,16 +76,13 @@ export class MeetingFormContainer extends Component {
       default:
         break;
     }
-
     appointment[name] = e.target.value
-    this.setState({ appointment});
-      
+    this.setState({ appointment});  
 }
 
   // Procees to next step
   nextStep = () => {
       const { step }  = this.state;
-      console.log(step)
       this.setState({
           step: step + 1
       });
@@ -134,6 +134,53 @@ export class MeetingFormContainer extends Component {
           this.setState({ formErrors, [name]: value });
     }
 
+
+    mixingCheckboxes = () => {
+      let trueCheckBoxs = '';
+      let checkBoxes = this.state.checkboxes;
+      Object.keys(checkBoxes).map((keyName, keyIndex) => {
+        if (checkBoxes[keyName] === true) {
+          trueCheckBoxs = trueCheckBoxs + keyName + ' ';
+        }
+      })
+      
+      return trueCheckBoxs;
+    }
+
+    handleSubmission = () => {
+      let trueCheckBoxs = this.mixingCheckboxes();
+      let data = {
+        docId: this.state.docId,
+        patId: this.state.id,
+        patFname: this.state.firstName,
+        patLname: this.state.firstName,
+        patTel: this.state.tel,
+        patEmail: this.state.email,
+        patCity: this.state.city,
+        patWeight: this.state.weight,
+        patHeight: this.state.height,
+        patMedicalHistory: trueCheckBoxs,
+        patSmoker: this.state.smoker,
+        appointment: this.state.appointment
+      }
+      let url = 'http://127.0.0.1:8080/attendappointment';
+      let axiosConfig = {
+        headers: {
+            'Content-Type': 'application/json;charset=UTF-8',
+            "Access-Control-Allow-Origin": "*",
+        }
+      };
+      
+      axios.post(url, data, axiosConfig)
+      .then((res) => {
+        console.log("RESPONSE RECEIVED: ", res);
+
+      })
+      .catch((err) => {
+        console.log("AXIOS ERROR: ", err);
+      })
+    }
+
     render() {
         const { step } = this.state;
         const { firstName, lastName, email, city, id, formErrors, checkboxes, weight, height, smoker, appointment } = this.state;
@@ -172,7 +219,10 @@ export class MeetingFormContainer extends Component {
                     docId={this.props.docId} />
                   )
             case 4:
-                return <h1>Success</h1>
+                return (
+                  <div>
+                  {this.handleSubmission()}
+                  <h1>Success</h1></div>)
         }
     }
 }

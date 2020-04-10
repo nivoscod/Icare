@@ -25,11 +25,11 @@ export default class ChosenDoctor extends Component {
     render() { 
          return (
             <div className="chosendoc-wrapper">
-            <img src={this.state.doctor.img} alt="" className="chosendoc-img" />
-            <div className="chosendoc-txt">
-                <h3> {this.props.action + ' ' + this.state.doctor.name}  </h3> 
-                <h4> {this.state.doctor.location}  </h4>
-            </div>
+                <img src={this.state.doctor.img} alt="" className="chosendoc-img" />
+                <div className="chosendoc-txt">
+                    <h3> {this.props.action + ' ' + this.state.doctor.name}  </h3> 
+                    <h4> {this.state.doctor.location}  </h4>
+                </div>
             </div>
         );
     }

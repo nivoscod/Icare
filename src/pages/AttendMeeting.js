@@ -6,7 +6,7 @@ export default class AttendMeeting extends Component {
     render() {
       const {docId, action } = this.props.location.state;
     return (
-      <div className='meetform'>
+      <div>
         <ChosenDoctor action={action} docId={docId}/>
         <MeetingFormContainer docId={docId} />
       </div>

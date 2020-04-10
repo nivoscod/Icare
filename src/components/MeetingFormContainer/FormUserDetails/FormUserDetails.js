@@ -36,6 +36,7 @@ export class FormUserDetails extends Component {
                   <span className="errorMessage">{formErrors.firstName}</span>
                 )}
               </div>
+
               <div className="lastName">
                 <label htmlFor="lastName">Last Name</label>
                 <input
@@ -51,6 +52,52 @@ export class FormUserDetails extends Component {
                   <span className="errorMessage">{formErrors.lastName}</span>
                 )}
               </div>
+
+              <div className="phoneNum">
+                <label htmlFor="phoneNum">Phone Number:</label>
+
+                <div className="phoneInputs">
+                  <div className="phonePrefix">
+                    <input
+                    className={formErrors.phonePreFix.length > 0 ? "error" : ""}
+                    defaultValue={values.phonePreFix}
+                    placeholder="05x"
+                    type="text"
+                    name="phonePreFix"
+                    maxLength="3"
+                    onChange={handleChange('phonePreFix')}
+                    noValidate
+                    />
+                  </div>
+
+                  <div className="phoneSeperator"> - </div>
+
+                  <div className="phone">
+                    <input
+                      className={formErrors.phoneNum.length > 0 ? "error" : null}
+                      defaultValue={values.phoneNum}
+                      type="text"
+                      name="phoneNum"
+                      maxLength="7"
+                      onChange={handleChange('phoneNum')}
+                      noValidate
+                    />
+                  </div>
+                </div>
+                
+                <div>
+                  {formErrors.phoneNum.length > 0 && (
+                    <span className="errorMessage">{formErrors.phoneNum}</span>
+                  )}
+                </div>
+                <div>
+                  {formErrors.phonePreFix.length > 0 && (
+                    <span className="errorMessage">{formErrors.phonePreFix}</span>
+                  )} 
+                </div>
+
+              </div>  
+
               <div className="email">
                 <label htmlFor="email">Email</label>
                 <input
@@ -66,6 +113,7 @@ export class FormUserDetails extends Component {
                   <span className="errorMessage">{formErrors.email}</span>
                 )}
               </div>
+
               <div className="city">
                 <label htmlFor="city">City</label>
                 <input
@@ -77,6 +125,7 @@ export class FormUserDetails extends Component {
                   noValidate
                 />
               </div>
+
               <div className="id">
               <label htmlFor="id">Id</label>
               <input
@@ -85,6 +134,7 @@ export class FormUserDetails extends Component {
                 placeholder="Id"
                 type="id"
                 name="id"
+                maxLength="9"
                 onChange={handleChange('id')}
                 noValidate
               />
@@ -92,9 +142,11 @@ export class FormUserDetails extends Component {
                 <span className="errorMessage">{formErrors.id}</span>
               )}
               </div>
+
               <div className="createAccount">
-              <button  type="submit" onClick={this.continute}>Continute</button>
+                <button  type="submit" onClick={this.continute}>Continute</button>
               </div>
+              
             </form>
           </div>
         </div>

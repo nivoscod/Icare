@@ -1,9 +1,8 @@
-import React, { Component } from 'react'
+import React from 'react'
 import './FormMedicalDetails.scss';
 import MedicalHisOptions from './../../../consts';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { makeStyles } from '@material-ui/core/styles';
 import FormGroup from '@material-ui/core/FormGroup';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -39,6 +38,7 @@ const FormMedicalDetails = (props) => {
         />
       }
       label={<span style={{ fontSize: '14px' }}>{option}</span>}
+      key={option}
     />);
   const createCheckboxes = () => MedicalHisOptions.map(option => createCheckbox(option));
   const { values, handleChange, handleSmokerChange, formErrors  } = props;
@@ -86,12 +86,12 @@ const FormMedicalDetails = (props) => {
         <label htmlFor="medicalHis">Are you a smoker?</label>
         <div className="medical-radio">
           <RadioGroup aria-label="gender" name="gender1" value={values.smoker} onChange={handleSmokerChange}>
-            <FormControlLabel value="yes" control={<Radio style ={{color: "#519e8a",}}/>} label={<span style={{ fontSize: '14px' }}>yes</span>} />
-            <FormControlLabel value="no" control={<Radio style ={{color: "#519e8a",}}/>} label={<span style={{ fontSize: '14px' }}>no</span>} />
+            <FormControlLabel value="yes" key="y" control={<Radio style ={{color: "#519e8a",}}/>} label={<span style={{ fontSize: '14px' }}>yes</span>} />
+            <FormControlLabel value="no" key="n" control={<Radio style ={{color: "#519e8a",}}/>} label={<span style={{ fontSize: '14px' }}>no</span>} />
           </RadioGroup>
         </div>
         <div className="createAccount">
-            <button type="submit" onClick={continute}>Continute</button>
+            <button type="submit" disabled={disabledButton(formErrors, values)} onClick={continute}>Continute</button>
             <button type="submit" onClick={back}>Go Back</button>
         </div>
       </form>

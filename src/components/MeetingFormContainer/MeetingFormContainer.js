@@ -3,6 +3,7 @@ import FormUserDetails from "./FormUserDetails/FormUserDetails";
 import FormMedicalDetails from "./FormMedicalDetails/FormMedicalDetails";
 import FormChooseDate from "./FormChooseDate/FormChooseDate"
 import MedicalHisOptions from './../../consts';
+import SuccessForm from './SuccessForm/SuccessForm'
 import axios from 'axios';
 
 const emailRegex = RegExp(
@@ -12,13 +13,14 @@ const emailRegex = RegExp(
 export class MeetingFormContainer extends Component {
   state= {
       step: 1,
-      docId: '1',
+      docId: this.props.docId,
       firstName: '',
       lastName: '',
       email: '',
       city: '',
       id: '',
-      tel: '345435',
+      phonePreFix: '',
+      phoneNum: '',
       weight: '',
       height: '',
       checkboxes: MedicalHisOptions.reduce(
@@ -36,15 +38,17 @@ export class MeetingFormContainer extends Component {
         id: "",
         email: "",
         weight: "",
-        height: ""
+        height: "",
+        phonePreFix: "",
+        phoneNum: ""
       },
       appointment: {
         year: "",
         month: "",
         day: "",
         hour: ""
-      }
-
+      },
+      confirmNum: '-1'
   }
   
   handleSmokerChange = e => {
@@ -70,9 +74,10 @@ export class MeetingFormContainer extends Component {
       case "month":
         appointment.day = '';
         appointment.hour = '';
+        break;
         case "day":
           appointment.hour = '';
-        break;
+          break;
       default:
         break;
     }
@@ -127,6 +132,14 @@ export class MeetingFormContainer extends Component {
               formErrors.height = 
                 value.length < 2 ? "minimum 2 numbers required" : "";
               break;
+            case "phoneNum":
+              formErrors.phoneNum = 
+                value.length !== 7 ? "please enter 7 digits after your prefix" : "";
+              break;
+            case "phonePreFix":
+              formErrors.phonePreFix = 
+                value.length !== 3 || (value[0] !== '0' || value[1] !== '5') ? "please enter valid phone prefix" : "";
+              break;
             default:
               break;
           }
@@ -138,12 +151,11 @@ export class MeetingFormContainer extends Component {
     mixingCheckboxes = () => {
       let trueCheckBoxs = '';
       let checkBoxes = this.state.checkboxes;
-      Object.keys(checkBoxes).map((keyName, keyIndex) => {
+      Object.keys(checkBoxes).map((keyName) => {
         if (checkBoxes[keyName] === true) {
           trueCheckBoxs = trueCheckBoxs + keyName + ' ';
         }
       })
-      
       return trueCheckBoxs;
     }
 
@@ -154,7 +166,7 @@ export class MeetingFormContainer extends Component {
         patId: this.state.id,
         patFname: this.state.firstName,
         patLname: this.state.firstName,
-        patTel: this.state.tel,
+        patTel: this.state.phonePreFix + this.state.phoneNum,
         patEmail: this.state.email,
         patCity: this.state.city,
         patWeight: this.state.weight,
@@ -174,6 +186,8 @@ export class MeetingFormContainer extends Component {
       axios.post(url, data, axiosConfig)
       .then((res) => {
         console.log("RESPONSE RECEIVED: ", res);
+        this.setState({confirmNum: String(res.data)})
+        this.setState({step: 4})
 
       })
       .catch((err) => {
@@ -183,8 +197,8 @@ export class MeetingFormContainer extends Component {
 
     render() {
         const { step } = this.state;
-        const { firstName, lastName, email, city, id, formErrors, checkboxes, weight, height, smoker, appointment } = this.state;
-        const valuesform1 = { firstName, lastName, email, city, id }
+        const { firstName, lastName, email, city, id, phoneNum, phonePreFix, formErrors, checkboxes, weight, height, smoker, appointment } = this.state;
+        const valuesform1 = { firstName, lastName, email, city, id, phoneNum, phonePreFix }
         const valuesform2 = { checkboxes , weight, height, smoker }
 
         switch(step) {
@@ -216,13 +230,17 @@ export class MeetingFormContainer extends Component {
                     prevStep={this.prevStep}
                     appointmentDetails={appointment}
                     handleSelectChange={this.handleSelectChange}
-                    docId={this.props.docId} />
+                    docId={this.props.docId} 
+                    submit={this.handleSubmission} />
                   )
             case 4:
                 return (
                   <div>
-                  {this.handleSubmission()}
-                  <h1>Success</h1></div>)
+                    {this.state.confirmNum !== '-1' && <SuccessForm appointment={appointment} confirmNum={this.state.confirmNum}/>}
+                  </div>
+                  )
+            default:
+              break;
         }
     }
 }

@@ -53,6 +53,7 @@ export class SearchBar extends Component {
           break;
         case 'area':
           filters.chosenArea = event.target.value;
+          break;
         default:
           break;
       }

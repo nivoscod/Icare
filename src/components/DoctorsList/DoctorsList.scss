@@ -1,25 +1,10 @@
 .docswrapper{
     margin-top: 20px;
     margin-left: 40px;
+
 }
 
-@media screen and (min-width:668px){
-    .doctorsList{
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-column-gap: 1.5rem;
-    }
-}
-
-@media screen and (min-width:692px){
-    .doctorsList{
-        width: 100%;
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-@media screen and (min-width:1140px){
-    .doctorsList{
-        grid-template-columns: repeat(4, 1fr);
-    }
+.doctorsList {
+    display: flex;
+    flex-wrap: wrap;
 }

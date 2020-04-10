@@ -9,13 +9,12 @@ export class Navbar extends Component {
     }
 
     render() { 
-        console.log(this.props.location)
         return (
             <nav className="navbar">
             <img src={logo} alt="img" />
             <ul className="nav-links">
                 <li>
-                    <a href="/" name="home" className="nav-link" onClick={this.setActiveTab}  className={`nav-link ${this.props.location.pathname === '/' ? "active": ""}`}>
+                    <a href="/" name="home" onClick={this.setActiveTab}  className={`nav-link ${this.props.location.pathname === '/' ? "active": ""}`}>
                         home
                     </a>
                 </li>

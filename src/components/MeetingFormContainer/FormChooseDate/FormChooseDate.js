@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import SelectBox from '../../SelectBox/SelectBox';
+import './FormChooseDate.scss';
 
 export default class FormChooseDate extends PureComponent {
     state={
@@ -59,13 +60,13 @@ export default class FormChooseDate extends PureComponent {
 
 
     componentDidMount() {
-            let appointmentDetails = { ...this.state.appointmentDetails };
-            appointmentDetails.year = '';
-            appointmentDetails.day = '';
-            appointmentDetails.month = '';
-            appointmentDetails.hour = '';
-            this.retrieveYears(this.props.docId)          
-            this.setState({ appointmentDetails })
+        let appointmentDetails = { ...this.state.appointmentDetails };
+        appointmentDetails.year = '';
+        appointmentDetails.day = '';
+        appointmentDetails.month = '';
+        appointmentDetails.hour = '';
+        this.retrieveYears(this.props.docId)          
+        this.setState({ appointmentDetails })
       }
 
     componentDidUpdate(prevProps, prevState) {
@@ -73,14 +74,14 @@ export default class FormChooseDate extends PureComponent {
         const month = this.props.appointmentDetails['month'];
         const year = this.props.appointmentDetails['year'];
 
-        if (prevState.appointmentDetails.year != this.state.appointmentDetails.year) {
+        if (prevState.appointmentDetails.year !== this.state.appointmentDetails.year) {
                 this.retrieveMonths(this.props.docId, year)          
         }
-        if (prevState.appointmentDetails.month != this.state.appointmentDetails.month) {
+        if (prevState.appointmentDetails.month !== this.state.appointmentDetails.month) {
                 this.retrieveDays(this.props.docId, year, month) 
         }
 
-        if (prevState.appointmentDetails.day != this.state.appointmentDetails.day) {
+        if (prevState.appointmentDetails.day !== this.state.appointmentDetails.day) {
                 this.retrieveHours(this.props.docId, year, month, day) 
         }
 
@@ -120,7 +121,7 @@ export default class FormChooseDate extends PureComponent {
           <div className="wrapper">
           <div className="form-wrapper">
           <h1>Pick a Date</h1>
-            <form>
+            <div className="dates">
                 {this.createSelectList("year", avalYears)}   
 
                 {year !== '' 
@@ -131,18 +132,17 @@ export default class FormChooseDate extends PureComponent {
 
                 {month !== '' && year !== '' && day !== ''
                  && this.createSelectList("hour", avalHours)}
-
+            </div>
                {
                         month !== '' && year !== '' && day !== '' && hour !== ''
                     &&  (
                         <div className="createAccount">
                             <h4>Your Choise: {day + '/' + month + '/'+ year + ' at ' + hour}</h4>
-                            <button  type="submit" onClick={this.continute}>Continute</button>
+                            <button  type="submit" onClick={this.props.submit}>Submit</button>
                             <button type="submit" onClick={this.back}>Go Back</button>
                         </div>
                     )
                 }   
-            </form>
             </div>
         </div>
         );

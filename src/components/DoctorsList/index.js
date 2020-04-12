@@ -10,7 +10,8 @@ export class DoctorsList extends Component {
             chosenDoc: '',
             chosenField: '',
             chosenArea: ''
-        }    }
+        }
+    }
     
     removeDoctor = id => {
         const {doctors} = this.state;

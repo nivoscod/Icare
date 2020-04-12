@@ -24,7 +24,7 @@ export class Navbar extends Component {
                     </a>
                 </li>
                 <li>
-                    <a href="/login" name="login" onClick={this.setActiveTab}  className={`nav-link ${this.props.location.pathname === '/login' ? "active": ""}`}>
+                    <a href="/Login" name="login" onClick={this.setActiveTab}  className={`nav-link ${this.props.location.pathname === '/login' ? "active": ""}`}>
                         Log In
                     </a>
                 </li>

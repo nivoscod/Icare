@@ -1,23 +1,12 @@
-import { ADD_FILTERS } from '../actions';
+  
+import { combineReducers } from 'redux';
 
-const initialState = {
-  filters: {
-    chosenDoc: '',
-    chosenField: '',
-    chosenArea: ''
-  }
-};
+import { authentication } from './authentication.reducer';
+import { filters } from './filters.reducer';
 
-function rootReducer(state = initialState, action) {
-  switch(action.type) {
-    case ADD_FILTERS:
-      return {
-        ...state,
-       filters: action.filters
-      };
-    default:
-      return state;
-  };
-}
+const rootReducer = combineReducers({
+  authentication,
+  filters
+});
 
 export default rootReducer;

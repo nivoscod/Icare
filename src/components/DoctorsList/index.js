@@ -82,7 +82,8 @@ export class DoctorsList extends Component {
 
 const mapStateToProps = state => {
     return {
-        filters: state.filters   };
+        filters: state.filters.filters
+    };
   };
   
   export default connect(mapStateToProps, null)(DoctorsList);

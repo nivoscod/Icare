@@ -3,7 +3,7 @@ import './SearchBar.scss'
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { connect } from 'react-redux';
-import { addFilters } from '../../js/actions'
+import { addFilters } from '../../js/actions';
 
 
 export class SearchBar extends Component {
